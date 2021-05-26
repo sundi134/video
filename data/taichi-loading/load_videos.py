@@ -11,8 +11,9 @@ import time
 from tqdm import tqdm
 from argparse import ArgumentParser
 from skimage import img_as_ubyte
-from skimage.transform import resize
+#from skimage.transform import resize
 warnings.filterwarnings("ignore")
+from PIL import Image
 
 DEVNULL = open(os.devnull, 'wb')
 
@@ -73,7 +74,10 @@ def run(data):
                     bot = int(bot / (ref_height / frame.shape[0]))
                     crop = frame[top:bot, left:right]
                     if args.image_shape is not None:
-                       crop = img_as_ubyte(resize(crop, args.image_shape, anti_aliasing=True))
+                       #crop = img_as_ubyte(resize(crop, args.image_shape, anti_aliasing=True))
+                       im = Image.fromarray(crop)
+                       size = tuple((np.array(im.size) * 0.99999).astype(int))
+                       crop = np.array(im.resize(size, PIL.Image.BICUBIC))            
                     entry['frames'].append(crop)
     except imageio.core.format.CannotReadFrameError:
         None
