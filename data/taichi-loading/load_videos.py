@@ -14,6 +14,7 @@ from skimage import img_as_ubyte
 #from skimage.transform import resize
 warnings.filterwarnings("ignore")
 from PIL import Image
+import PIL 
 
 DEVNULL = open(os.devnull, 'wb')
 
